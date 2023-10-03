@@ -6,15 +6,17 @@ public class UpdateBookCommand
 {
     public UpdateBookModel Model { get; set; }
     private readonly BookStoreDbContext dbContext;
+    
+    public int BookId { get; set; }
 
     public UpdateBookCommand(BookStoreDbContext dbContext)
     {
         this.dbContext = dbContext;
     }
 
-    public void Handle(int id)
+    public void Handle()
     {
-        var book = dbContext.Books.SingleOrDefault(x => x.Id == id);
+        var book = dbContext.Books.SingleOrDefault(x => x.Id == BookId);
 
         if(book == null)
         {
