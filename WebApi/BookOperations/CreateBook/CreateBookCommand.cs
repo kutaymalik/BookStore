@@ -1,4 +1,5 @@
-﻿using WebApi.DBOperations;
+﻿using AutoMapper;
+using WebApi.DBOperations;
 
 namespace WebApi.BookOperations.CreateBook;
 
@@ -6,10 +7,12 @@ public class CreateBookCommand
 {
     public CreatebBookModel Model { get; set; }
     private readonly BookStoreDbContext dbContext;
+    private readonly IMapper mapper;
 
-    public CreateBookCommand(BookStoreDbContext dbContext)
+    public CreateBookCommand(BookStoreDbContext dbContext, IMapper mapper)
     {
         this.dbContext = dbContext;
+        this.mapper = mapper;
     }
 
     public void Handle()
@@ -21,12 +24,14 @@ public class CreateBookCommand
             throw new InvalidOperationException("The book is already exists!");
         }
 
-        book = new Book();
+        book = mapper.Map<Book>(Model);
 
-        book.Title = Model.Title;
-        book.PublishDate = Model.PublishDate;
-        book.PageCount = Model.PageCount;
-        book.GenreId = Model.GenreId;
+        //book = new Book();
+
+        //book.Title = Model.Title;
+        //book.PublishDate = Model.PublishDate;
+        //book.PageCount = Model.PageCount;
+        //book.GenreId = Model.GenreId;
 
         dbContext.Books.Add(book);
 

@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
+using System.Reflection;
 using WebApi.DBOperations;
 
 namespace WebApi;
@@ -22,6 +23,8 @@ public class Startup
         });
 
         services.AddDbContext<BookStoreDbContext>(options => options.UseInMemoryDatabase(databaseName: "BookStoreDB"));
+
+        services.AddAutoMapper(Assembly.GetExecutingAssembly());
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

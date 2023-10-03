@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AutoMapper;
+using FluentValidation;
+using Microsoft.AspNetCore.Mvc;
 using WebApi.BookOperations.CreateBook;
 using WebApi.BookOperations.DeleteBook;
 using WebApi.BookOperations.GetBookDetail;
@@ -16,16 +18,18 @@ namespace WebApi.Controllers;
 public class BookController : ControllerBase
 {
     private readonly BookStoreDbContext context;
+    private readonly IMapper mapper;
 
-    public BookController(BookStoreDbContext context)
+    public BookController(BookStoreDbContext context, IMapper mapper)
     {
         this.context = context;
+        this.mapper = mapper;
     }
 
     [HttpGet]
     public IActionResult GetBooks()
     {
-        GetBooksQuery query = new GetBooksQuery(context);
+        GetBooksQuery query = new GetBooksQuery(context, mapper);
 
         var result = query.Handle();
 
@@ -38,9 +42,12 @@ public class BookController : ControllerBase
         BookDetailViewModel result;
         try
         {
-            GetBookDetailQuery query = new GetBookDetailQuery(context);
+            GetBookDetailQuery query = new GetBookDetailQuery(context, mapper);
 
             query.BookId = id;
+
+            GetBookDetailQueryValidator validator = new GetBookDetailQueryValidator();
+            validator.ValidateAndThrow(query);
 
             result  = query.Handle();
         } 
@@ -64,11 +71,14 @@ public class BookController : ControllerBase
     [HttpPost]
     public IActionResult AddBook([FromBody] CreatebBookModel model)
     {
-        CreateBookCommand command = new CreateBookCommand(context);
+        CreateBookCommand command = new CreateBookCommand(context, mapper);
 
         try
         {
             command.Model = model;
+
+            CreateBookCommandValidator validator = new CreateBookCommandValidator();
+            validator.ValidateAndThrow(command);
 
             command.Handle();
         }
@@ -91,6 +101,9 @@ public class BookController : ControllerBase
 
             command.Model = model;
 
+            UpdateBookCommandValidator validator = new UpdateBookCommandValidator();
+            validator.ValidateAndThrow(command);
+
             command.Handle();
         }
         catch (Exception ex)
@@ -109,6 +122,9 @@ public class BookController : ControllerBase
             DeleteBookCommand command = new(context);
 
             command.BookId = id;
+
+            DeleteBookCommandValidator validator = new DeleteBookCommandValidator();
+            validator.ValidateAndThrow(command);
 
             command.Handle();
         }

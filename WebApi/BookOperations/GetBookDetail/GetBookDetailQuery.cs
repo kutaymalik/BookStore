@@ -1,4 +1,5 @@
-﻿using WebApi.Common;
+﻿using AutoMapper;
+using WebApi.Common;
 using WebApi.DBOperations;
 using static WebApi.BookOperations.GetBooks.GetBooksQuery;
 
@@ -8,10 +9,12 @@ public class GetBookDetailQuery
 {
     private readonly BookStoreDbContext dbContext;
     public int BookId { get; set; }
+    private readonly IMapper mapper;
 
-    public GetBookDetailQuery(BookStoreDbContext dbContext)
+    public GetBookDetailQuery(BookStoreDbContext dbContext, IMapper mapper)
     {
         this.dbContext = dbContext;
+        this.mapper = mapper;
     }
 
     public BookDetailViewModel Handle()
@@ -23,12 +26,14 @@ public class GetBookDetailQuery
             throw new InvalidOperationException("Rcord not found!");
         }
 
-        BookDetailViewModel vm = new();
+        BookDetailViewModel vm = mapper.Map<BookDetailViewModel>(book);
 
-        vm.Title = book.Title;
-        vm.Genre = ((GenreEnum)book.GenreId).ToString();
-        vm.PublishDate = book.PublishDate.Date.ToString("dd/MM/yyyy");
-        vm.PageCount = book.PageCount;
+        //BookDetailViewModel vm = new();
+
+        //vm.Title = book.Title;
+        //vm.Genre = ((GenreEnum)book.GenreId).ToString();
+        //vm.PublishDate = book.PublishDate.Date.ToString("dd/MM/yyyy");
+        //vm.PageCount = book.PageCount;
 
         return vm;
     }
