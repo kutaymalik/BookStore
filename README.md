@@ -1,6 +1,6 @@
 ![GetByIdModel](https://github.com/kutaymalik/BookStore/assets/56682209/d22ef944-840e-4221-a7ec-524b89b1c362)# BookStore Week3 HW
 
-An API and the infrastructure of this API have been prepared for the Vakıfbank - Patika FullStack bootcamp. This project is a book store. Books have create, update and get methods. Votes can be cast with user information. The results can be brought in once the voting process is completed.
+An API and the infrastructure of this API have been prepared for the Vakıfbank - Patika FullStack bootcamp. This project is a book store. Books have create, update and get methods.
 
 Ex Book:
 ```
