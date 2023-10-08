@@ -6,10 +6,10 @@ namespace WebApi.Application.AuthorOperations.Queries.GetAuthorDetail;
 public class GetAuthorDetailQuery
 {
     public int AuthorId { get; set; }
-    public readonly BookStoreDbContext context;
+    public readonly IBookStoreDbContext context;
     public readonly IMapper mapper;
 
-    public GetAuthorDetailQuery(BookStoreDbContext context, IMapper mapper)
+    public GetAuthorDetailQuery(IBookStoreDbContext context, IMapper mapper)
     {
         this.context = context;
         this.mapper = mapper;
@@ -21,7 +21,7 @@ public class GetAuthorDetailQuery
 
         if(author == null)
         {
-            throw new InvalidOperationException("Book genre not found");
+            throw new InvalidOperationException("Book author not found");
         }
 
         return mapper.Map<AuthorDetailViewModel>(author);

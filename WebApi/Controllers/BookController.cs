@@ -17,10 +17,10 @@ namespace WebApi.Controllers;
 [Route("bookstore/api/[controller]")]
 public class BookController : ControllerBase
 {
-    private readonly BookStoreDbContext context;
+    private readonly IBookStoreDbContext context;
     private readonly IMapper mapper;
 
-    public BookController(BookStoreDbContext context, IMapper mapper)
+    public BookController(IBookStoreDbContext context, IMapper mapper)
     {
         this.context = context;
         this.mapper = mapper;
@@ -79,7 +79,7 @@ public class BookController : ControllerBase
     [HttpPut("{id}")]
     public IActionResult UpdateBook(int id, [FromBody] UpdateBookModel model)
     {
-        UpdateBookCommand command = new UpdateBookCommand(context);
+        UpdateBookCommand command = new UpdateBookCommand(context, mapper);
 
         command.BookId = id;
 

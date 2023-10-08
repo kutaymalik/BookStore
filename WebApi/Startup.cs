@@ -26,6 +26,9 @@ public class Startup
 
         services.AddDbContext<BookStoreDbContext>(options => options.UseInMemoryDatabase(databaseName: "BookStoreDB"));
 
+        // If i inject this service it corresponds to BookStoreDbContext
+        services.AddScoped<IBookStoreDbContext>(provider => provider.GetService<BookStoreDbContext>());
+
         services.AddAutoMapper(Assembly.GetExecutingAssembly());
 
         services.AddSingleton<ILoggerService, DBLogger>();

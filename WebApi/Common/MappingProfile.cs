@@ -6,6 +6,7 @@ using WebApi.Application.GenreOperations.Queries.GetGenreDetail;
 using WebApi.Application.GenreOperations.Queries.GetGenres;
 using WebApi.Entities;
 using static WebApi.Application.BookOperations.Commands.CreateBook.CreateBookCommand;
+using static WebApi.Application.BookOperations.Commands.UpdateBook.UpdateBookCommand;
 using static WebApi.Application.BookOperations.Queries.GetBookDetail.GetBookDetailQuery;
 using static WebApi.Application.BookOperations.Queries.GetBooks.GetBooksQuery;
 
@@ -33,5 +34,7 @@ public class MappingProfile : Profile
         CreateMap<Author, AuthorDetailViewModel>();
 
         CreateMap<Author, AuthorViewModel>();
+
+        CreateMap<UpdateBookModel, Book>();
     }
 }

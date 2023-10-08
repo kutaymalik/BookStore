@@ -1,17 +1,21 @@
-﻿using WebApi.DBOperations;
+﻿using AutoMapper;
+using WebApi.DBOperations;
+using WebApi.Entities;
 
 namespace WebApi.Application.BookOperations.Commands.UpdateBook;
 
 public class UpdateBookCommand
 {
     public UpdateBookModel Model { get; set; }
-    private readonly BookStoreDbContext dbContext;
+    private readonly IBookStoreDbContext dbContext;
+    private readonly IMapper mapper;
 
     public int BookId { get; set; }
 
-    public UpdateBookCommand(BookStoreDbContext dbContext)
+    public UpdateBookCommand(IBookStoreDbContext dbContext, IMapper mapper)
     {
         this.dbContext = dbContext;
+        this.mapper = mapper;
     }
 
     public void Handle()
@@ -23,7 +27,9 @@ public class UpdateBookCommand
             throw new InvalidOperationException("Record not found!");
         }
 
-        book.Title = Model.Title != default ? Model.Title : book.Title;
+        book = mapper.Map<Book>(Model);
+
+        dbContext.Books.Update(book);
 
         dbContext.SaveChanges();
     }
@@ -32,6 +38,7 @@ public class UpdateBookCommand
     {
         public string Title { get; set; }
         public int GenreId { get; set; }
+        public int AuthorId { get; set; }
         public int PageCount { get; set; }
         public DateTime PublishDate { get; set; }
     }

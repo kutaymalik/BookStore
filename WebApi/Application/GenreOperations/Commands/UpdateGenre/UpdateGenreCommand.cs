@@ -6,9 +6,9 @@ public class UpdateGenreCommand
 {
     public int GenreId { get; set; }
     public UpdateGenreModel Model { get; set; }
-    public readonly BookStoreDbContext context;
+    public readonly IBookStoreDbContext context;
 
-    public UpdateGenreCommand(BookStoreDbContext context)
+    public UpdateGenreCommand(IBookStoreDbContext context)
     {
         this.context = context;
     }
@@ -30,6 +30,8 @@ public class UpdateGenreCommand
         genre.Name = string.IsNullOrEmpty(Model.Name.Trim()) ? genre.Name : Model.Name;
         genre.IsActive = Model.IsActive;
 
+        context.Genres.Update(genre);
+
         context.SaveChanges();
     }
 }
@@ -37,5 +39,5 @@ public class UpdateGenreCommand
 public class UpdateGenreModel
 {
     public string Name { get; set; }
-    public bool IsActive { get; set; }
+    public bool IsActive { get; set; } = true;
 }

@@ -7,7 +7,7 @@ public class CreateAuthorCommandValidator : AbstractValidator<CreateAuthorComman
     public CreateAuthorCommandValidator()
     {
         RuleFor(command => command.Model.FirstName).NotEmpty().MinimumLength(3);
-        RuleFor(command => command.Model.LastName).NotEmpty().MinimumLength(3);
-        RuleFor(command => command.Model.DateOfBirth).NotEmpty().LessThan(DateTime.UtcNow);
+        RuleFor(command => command.Model.LastName).NotEmpty().MinimumLength(4);
+        RuleFor(command => command.Model.DateOfBirth).NotEmpty().LessThan(DateTime.Now.Date);
     }
 }

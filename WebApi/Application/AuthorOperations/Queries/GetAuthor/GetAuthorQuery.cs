@@ -5,10 +5,10 @@ namespace WebApi.Application.AuthorOperations.Queries.GetAuthor;
 
 public class GetAuthorQuery
 {
-    public readonly BookStoreDbContext context;
+    public readonly IBookStoreDbContext context;
     public readonly IMapper mapper;
 
-    public GetAuthorQuery(BookStoreDbContext context, IMapper mapper)
+    public GetAuthorQuery(IBookStoreDbContext context, IMapper mapper)
     {
         this.context = context;
         this.mapper = mapper;
